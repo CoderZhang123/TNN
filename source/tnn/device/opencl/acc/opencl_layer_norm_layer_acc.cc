@@ -71,43 +71,18 @@ Status OpenCLLayerNormLayerAcc::Reshape(const std::vector<Blob *> &inputs, const
     for(int i = 0; i < input_dims.size(); ++i)
             printf("inputs_dim%d: %d\n", i, DimsFunctionUtils::GetDim(input_dims, i));
 
-    // char* scale_handle_ptr = static_cast<char *>(inputs[1]->GetHandle().base);
-    // char* bias_handle_ptr  = static_cast<char *>(inputs[2]->GetHandle().base);
-
         // create rawbuffer
         auto dims = inputs[1]->GetBlobDesc().dims;
-        // printf("data_type: %d\n", inputs[1]->GetBlobDesc().data_type);
-        // printf("%s\n", typeid(dims).name());
-        // printf("blob.dims.size(): %d\n", dims.size());
-        // int byte_size = 1;
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 0);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 1);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 2);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 3);
+
         for(int i = 0; i < dims.size(); ++i)
             printf("s_dim%d: %d\n", i, DimsFunctionUtils::GetDim(dims, i));
-        
-        // byte_size *= DataTypeUtils::GetBytesSize(data_type);
-        // printf("byte_size: %d\n", byte_size);
-        // RawBuffer scale_handle(byte_size, scale_handle_ptr, dims);
-        // LOGD("shit\n");
-        // ret = ConvertChannelWeights(scale_handle, ocl_k_, channels, true, false);
-        // LOGD("shit\n");
-        // CHECK_TNN_OK(ret);
 
         dims = inputs[2]->GetBlobDesc().dims;
-        // byte_size = 1;
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 0);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 1);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 2);
-        // byte_size *= DimsFunctionUtils::GetDim(dims, 3);
+      
         for(int i = 0; i < dims.size(); ++i)
             printf("b_dim%d: %d\n", i, DimsFunctionUtils::GetDim(dims, i));
 
-        // byte_size *= DataTypeUtils::GetBytesSize(data_type);
-        // RawBuffer bias_handle(byte_size, bias_handle_ptr, dims);
-        // ret = ConvertChannelWeights(bias_handle, ocl_b_, channels, true, false);
-        // CHECK_TNN_OK(ret);
+       
 
         
     auto output_dims = outputs[0]->GetBlobDesc().dims;
