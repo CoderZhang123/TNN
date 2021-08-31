@@ -22,6 +22,7 @@ private:
 private:
     bool share_channel_ = false;
     int reduce_dim_size_ = -1;
+    float eps_;
     // std::shared_ptr<OpenCLMemory> ocl_k_ = nullptr;
     // std::shared_ptr<OpenCLMemory> ocl_b_ = nullptr;
     
@@ -37,6 +38,7 @@ Status OpenCLLayerNormLayerAcc::Init(Context *context, LayerParam *param, LayerR
     op_name_        = "LayerNorm";
 
     reduce_dim_size_ = dynamic_cast<LayerNormLayerParam *>(param)->reduce_dims_size;
+    eps_             = dynamic_cast<LayerNormLayerParam *>(param)->eps;
     printf("reduce_dim_size: %d\n", reduce_dim_size_);
 
     auto dims = inputs[0]->GetBlobDesc().dims;
@@ -67,7 +69,7 @@ Status OpenCLLayerNormLayerAcc::Reshape(const std::vector<Blob *> &inputs, const
     int channels    = DimsFunctionUtils::GetDim(input_dims, 1);
     DataType data_type = inputs[0]->GetBlobDesc().data_type;
     // only support scale and bias in blobs, only support float now
-
+   
     for(int i = 0; i < input_dims.size(); ++i)
             printf("inputs_dim%d: %d\n", i, DimsFunctionUtils::GetDim(input_dims, i));
 
@@ -82,14 +84,13 @@ Status OpenCLLayerNormLayerAcc::Reshape(const std::vector<Blob *> &inputs, const
         for(int i = 0; i < dims.size(); ++i)
             printf("b_dim%d: %d\n", i, DimsFunctionUtils::GetDim(dims, i));
 
-       
-
         
     auto output_dims = outputs[0]->GetBlobDesc().dims;
     uint32_t idx = SetExecuteUnit3DSizeInfoDefault(execute_units_[0], output_dims);
     execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)inputs[0]->GetHandle().base));
     execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)inputs[1]->GetHandle().base));
     execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)inputs[2]->GetHandle().base));
+    execute_units_[0].ocl_kernel.setArg(idx++, eps_);
     execute_units_[0].ocl_kernel.setArg(idx++, DimsFunctionUtils::GetDim(input_dims, 2));
     execute_units_[0].ocl_kernel.setArg(idx++, *((cl::Image *)outputs[0]->GetHandle().base));
     return TNN_OK;
