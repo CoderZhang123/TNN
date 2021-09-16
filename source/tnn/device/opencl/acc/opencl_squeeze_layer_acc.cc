@@ -108,17 +108,13 @@ Status OpenCLSqueezeLayerAcc::Reshape(const std::vector<Blob *> &inputs, const s
 }
 
 std::vector<DataType> OpenCLSqueezeLayerAcc::SupportDataType(int dims_size, BlobType blob_type) {
-    // if (blob_type == BLOB_INPUT) {
-        return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
-    // } else {
-    //     return {DATA_TYPE_INT32};
-    // }
+    return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
 }
 
 REGISTER_OPENCL_ACC(Squeeze, LAYER_SQUEEZE)
 REGISTER_OPENCL_LAYOUT(LAYER_SQUEEZE, DATA_FORMAT_NHC4W4);
 
-// REGISTER_OPENCL_ACC(Squeeze, LAYER_UNSQUEEZE)
-// REGISTER_OPENCL_LAYOUT(LAYER_UNSQUEEZE, DATA_FORMAT_NHC4W4);
+REGISTER_OPENCL_ACC(Squeeze, LAYER_UNSQUEEZE)
+REGISTER_OPENCL_LAYOUT(LAYER_UNSQUEEZE, DATA_FORMAT_NHC4W4);
 
 }  // namespace TNN_NS

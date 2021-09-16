@@ -17,7 +17,8 @@ Status OpenCLGeluLayerAcc::Init(Context *context, LayerParam *param, LayerResour
 
 std::set<std::string> OpenCLGeluLayerAcc::CreateBuildOptions() {
     std::set<std::string> build_options;
-    std::string compute = "(FLOAT4)0.5*in*(erf(in*(FLOAT4)0.707106793288165)+(FLOAT4)1)";
+    // std::string compute = "(FLOAT4)(0.5f)*in*(erf(in*(FLOAT4)(0.707106793288165f))+(FLOAT4)(1.f))";
+    std::string compute = "(FLOAT4)(0.5f)*in*(erf(in*(FLOAT4)(0.707106793288165f))+(FLOAT4)(1.f))";
     build_options.emplace(" -DOPERATOR=" + compute);
     return build_options;
 }

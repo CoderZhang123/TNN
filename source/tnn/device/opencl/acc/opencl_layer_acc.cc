@@ -177,8 +177,6 @@ std::vector<DataFormat> OpenCLLayerAcc::SupportDataFormat(DataType data_type, in
 std::vector<DataType> OpenCLLayerAcc::SupportDataType(int dims_size, BlobType blob_type) {
     std::vector<DataType> support_list;
     return {DATA_TYPE_FLOAT, DATA_TYPE_HALF};
-    printf("shit\n");
-    // return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
 }
 
 bool OpenCLLayerAcc::NeedFlush() {

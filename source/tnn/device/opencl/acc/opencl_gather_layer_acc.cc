@@ -52,8 +52,7 @@ Status OpenCLGatherLayerAcc::Init(Context *context, LayerParam *param, LayerReso
     op_name_        = "Gather";
 
     auto layer_resource = dynamic_cast<GatherLayerResource*>(resource_);
-    // printf("data_in_resource: %d\n", layer_param->data_in_resource);
-    // printf("indice_in_resource: %d\n", layer_param->indices_in_resource);
+
     if (!layer_param->data_in_resource && layer_param->indices_in_resource && layer_resource) {
         ret = ConvertIndicesBuffer(layer_resource->indices);
         auto input = inputs[0];
@@ -109,14 +108,6 @@ Status OpenCLGatherLayerAcc::Init(Context *context, LayerParam *param, LayerReso
         auto output_dims = output->GetBlobDesc().dims;
         auto input_dims_size = input_dims.size();
         auto output_dims_size = output_dims.size();
-
-        // printf("data: %d\n", input_data_dims.size());
-        // for(int i = 0; i < 4; ++i) 
-        //     printf("dim%d: %d\n", i, DimsFunctionUtils::GetDim(input_data_dims, i));
-        
-        // printf("indice: %d\n", input_dims.size());
-        // for(int i = 0; i < 4; ++i) 
-        //     printf("dim%d: %d\n", i, DimsFunctionUtils::GetDim(input_dims, i));
 
         std::string src_format = "Image", dst_format = "Image";
         std::string img_to_buf_program_name = "image_to_buffer", buf_to_img_program_name = "buffer_to_image";
@@ -399,11 +390,7 @@ Status OpenCLGatherLayerAcc::Reshape(const std::vector<Blob *> &inputs, const st
 }
 
 std::vector<DataType> OpenCLGatherLayerAcc::SupportDataType(int dims_size, BlobType blob_type) {
-    // if (blob_type == BLOB_INPUT) {
         return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
-    // } else {
-    //     return {DATA_TYPE_INT32};
-    // }
 }
 
 REGISTER_OPENCL_ACC(Gather, LAYER_GATHER)

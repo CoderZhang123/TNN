@@ -42,6 +42,7 @@ private:
     int weight_position_ = 0;
     // input0, input1, output
     std::vector<bool> need_reshape_ = {false, false, false};
+    ReshapeLayerParam reshape_param_;
     std::vector<std::shared_ptr<OpenCLReshapeLayerAcc> > reshape_layer_acc_ = {nullptr, nullptr, nullptr};
     std::vector<std::vector<Blob *> > reshape_inputs_ = {};
     std::vector<std::vector<Blob *> > reshape_outputs_ = {};

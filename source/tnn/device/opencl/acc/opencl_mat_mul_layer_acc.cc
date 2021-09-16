@@ -310,21 +310,19 @@ Status OpenCLMatMulLayerAcc::InitReshapeLayer(
 
     // Init LayerAcc
     if (position != 2) {
-        ReshapeLayerParam reshape_param;
-        reshape_param.name         = "MatMul_Reshape";
-        reshape_param.reshape_type = 0;
-        reshape_param.axis         = 0;
-        reshape_param.num_axes     = 4;
-        reshape_param.shape        = output_desc.dims;
-        layer->Init(ocl_context_, &reshape_param, nullptr, reshape_layer_inputs, reshape_layer_outputs);
+        reshape_param_.name         = "MatMul_Reshape";
+        reshape_param_.reshape_type = 0;
+        reshape_param_.axis         = 0;
+        reshape_param_.num_axes     = 4;
+        reshape_param_.shape        = output_desc.dims;
+        layer->Init(ocl_context_, &reshape_param_, nullptr, reshape_layer_inputs, reshape_layer_outputs);
     } else {
-        ReshapeLayerParam reshape_param;
-        reshape_param.name         = "MatMul_Reshape";
-        reshape_param.reshape_type = 0;
-        reshape_param.axis         = 0;
-        reshape_param.num_axes     = blob->GetBlobDesc().dims.size();
-        reshape_param.shape        = blob->GetBlobDesc().dims;
-        layer->Init(ocl_context_, &reshape_param, nullptr, reshape_layer_inputs, reshape_layer_outputs);
+        reshape_param_.name         = "MatMul_Reshape";
+        reshape_param_.reshape_type = 0;
+        reshape_param_.axis         = 0;
+        reshape_param_.num_axes     = blob->GetBlobDesc().dims.size();
+        reshape_param_.shape        = blob->GetBlobDesc().dims;
+        layer->Init(ocl_context_, &reshape_param_, nullptr, reshape_layer_inputs, reshape_layer_outputs);
     }
 
     return ret;

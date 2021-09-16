@@ -49,12 +49,10 @@ Status OpenCLCastLayerAcc::Init(Context *context, LayerParam *param, LayerResour
     } else if(input_data_type == DATA_TYPE_INT32 && (output_data_type == DATA_TYPE_FLOAT || output_data_type == DATA_TYPE_HALF)) {
         std::set<std::string> build_options;
         if(context->GetPrecision() != PRECISION_HIGH) {
-            // still not work
             build_options.emplace(std::string(" -DCONVERT=") + "convert_half4");
         } else {
             build_options.emplace(std::string(" -DCONVERT=") + "convert_float4");
         }
-        //  ret         = CreateExecuteUnit(execute_units_[0], "copy", "CopyImage");
         ret         = CreateExecuteUnit(execute_units_[0], "cast_int32_to_float", "CastIntToFloat", build_options);
         if(ret != TNN_OK) {
             return ret;
@@ -101,11 +99,7 @@ Status OpenCLCastLayerAcc::Reshape(const std::vector<Blob *> &inputs, const std:
 }
 
 std::vector<DataType> OpenCLCastLayerAcc::SupportDataType(int dims_size, BlobType blob_type) {
-    if (blob_type == BLOB_INPUT) {
-        return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
-    } else {
-        return {DATA_TYPE_FLOAT, DATA_TYPE_HALF};
-    }
+    return {DATA_TYPE_FLOAT, DATA_TYPE_HALF, DATA_TYPE_INT32};
 }
 
 
